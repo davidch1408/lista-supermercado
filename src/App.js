@@ -32,12 +32,26 @@ function App() {
 
   const toggleItem = (id) => {
     setItems(prevItems => {
-      const updatedItems = prevItems.map(item => 
-        item.id === id ? { ...item, addedToCart: !item.addedToCart } : item
-      );
-      // Reorganizar los artículos: los no marcados primero, los marcados al final
-      updatedItems.sort((a, b) => a.addedToCart - b.addedToCart);
-      return updatedItems;
+      return prevItems.map(item => {
+        if (item.id === id) {
+          // Solo solicitar el precio si el artículo no está en el carrito
+          if (!item.addedToCart) {
+            const userInput = window.prompt("Por favor, ingrese el precio del artículo:");
+
+            // Si el usuario cancela o no ingresa un número, no hacemos nada
+            if (userInput === null || isNaN(userInput)) {
+              return item; // Devolvemos el artículo sin cambios
+            }
+
+            // Actualizamos el precio del artículo
+            item.price = parseFloat(userInput);
+          }
+
+          // Cambiar el estado de agregado al carrito
+          return { ...item, addedToCart: !item.addedToCart };
+        }
+        return item;
+      }).sort((a, b) => a.addedToCart - b.addedToCart); // Reorganizar después de actualizar
     });
   };
 

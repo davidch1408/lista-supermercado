@@ -8,7 +8,7 @@ function AddItemForm({ addItem }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !quantity || !price) return;
+    if (!name || !quantity) return;
     addItem(name, quantity, price);
     setName('');
     setQuantity('');
@@ -29,13 +29,7 @@ function AddItemForm({ addItem }) {
         value={quantity} 
         onChange={(e) => setQuantity(e.target.value)} 
       />
-      <input
-        type='number'
-        step="0.01"
-        placeholder='Precio'
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
+      
       <button type="submit">Agregar</button>
     </form>
   );
